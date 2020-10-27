@@ -19,3 +19,4 @@ struct FPOINT
 extern HWND g_hWnd;
 
 //파이어!!
+//파이어파이어
