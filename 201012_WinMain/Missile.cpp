@@ -6,8 +6,8 @@ HRESULT Missile::Init()
 {
 	pos.x = 0;
 	pos.y = 0;
-	speed = 1.0f;
-	size = 20;
+	speed = 10.0f;
+	size = 70;
 	isFire = false;
 	angle = 0.0f;
 	destAngle = 0.0f;
@@ -24,28 +24,22 @@ void Missile::Release()
 void Missile::Update()
 {
 	if (isFire)
-	{
-		float tempAngle;
-		if (target)
+	{   
+		pos.x += cosf(DegreeToRadian(angle)) * speed;  //이거한줄을 몰라서 어제하루를날렸네 ㅅㅂ
+		pos.y -= sinf(DegreeToRadian(angle)) * speed;
+		//벽에 부딛혔는지 확인
+		//오른쪽,왼쪾 
+		if (pos.x+(size/2) >= WINSIZE_X|| pos.x - (size / 2) <= 0)
 		{
-			followRatio += 0.4f;
-			if (followRatio >= 100.0f)
-			{
-				followRatio = 100.0f;
-			}
-
-			destAngle = atan2(-(target->GetPos().y - pos.y),
-				target->GetPos().x - pos.x);
-
-			tempAngle = DegreeToRadian(angle);
-			tempAngle += (destAngle - DegreeToRadian(angle)) / (100.0f / followRatio);
-			angle = RadianToDegree(tempAngle);
+			angle = 180.0f - angle;
 		}
-		pos.x += cosf(tempAngle) * speed;
-		pos.y -= sinf(tempAngle) * speed;
-
-		//pos.x += cosf(DegreeToRadian(angle)) * speed;
-		//pos.y -= sinf(DegreeToRadian(angle)) * speed;
+		//위,아래
+		if (pos.y - (size / 2) <= 0||pos.y+ (size / 2) >=WINSIZE_Y)
+		{
+			angle = 360.0f - angle;
+		}
+		
+		
 	}
 }
 

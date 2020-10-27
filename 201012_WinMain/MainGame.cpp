@@ -1,7 +1,7 @@
 #include "MainGame.h"
 #include "Tank.h"
 #include "Enemy.h"
-
+#include "Missile.h"
 HRESULT MainGame::Init()
 {
 	KeyManager::GetSingleton()->Init();
@@ -65,6 +65,13 @@ void MainGame::Render(HDC hdc)
 		mouseData.clickedPosX, mouseData.clickedPosY);
 	TextOut(hdc, 10, 30, szText, strlen(szText));
 
+}
+
+bool MainGame::CheckCollision(Missile * m1, Missile * m2)
+{
+	//m1의 반지름+ m2 의 반지름 >= m1과m2사이의 거리 (->충돌)
+
+	return false;
 }
 
 LRESULT MainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)

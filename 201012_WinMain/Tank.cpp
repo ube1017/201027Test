@@ -22,18 +22,24 @@ HRESULT Tank::Init()
 		x = 90 * 6.28 / 360
 		x = 90 * PI / 180
 	*/
-
+	missileCount = 5;
 	// 미사일
-	missile = new Missile();
-	missile->Init();
-	missile->SetPos(barrelEnd);
+	missile = new Missile[5];
+	for (int i = 0; i < 5; i++)
+	{
+		missile[i].Init();
+		missile[i].SetPos(barrelEnd);
+	}
 
 	return S_OK;
 }
 
 void Tank::Release()
 {
-	missile->Release();
+	for (int i = 0; i < missileCount; i++)
+	{
+		missile[i].Release();
+	}
 	delete missile;
 }
 
@@ -57,7 +63,11 @@ void Tank::Update()
 
 	if (missile)
 	{
-		missile->Update();
+		for (int i = 0; i < 5; i++)
+		{
+			missile[i].Update();
+		}
+		
 	}
 }
 
@@ -76,7 +86,11 @@ void Tank::Render(HDC hdc)
 	// 미사일
 	if (missile)
 	{
-		missile->Render(hdc);
+		for (int i = 0; i < 5; i++)
+		{
+			missile[i].Render(hdc);
+		}
+		
 	}
 }
 
@@ -84,14 +98,17 @@ void Tank::Fire()
 {
 	if (missile)
 	{
-		if (missile->GetIsFire() == false)
+		for (int i = 0; i < missileCount; i++)
 		{
-			// 위치
-			missile->SetPos(barrelEnd);
-			// 각도
-			missile->SetAngle(barrelAngle);
-			// 상태
-			missile->SetIsFire(true);
+			if (missile[i].GetIsFire() == false)
+			{
+				// 위치
+				missile[i].SetPos(barrelEnd);
+				// 각도
+				missile[i].SetAngle(barrelAngle);
+				// 상태
+				missile[i].SetIsFire(true);
+			}
 		}
 	}
 }
@@ -104,6 +121,11 @@ void Tank::RotateBarrel(float angle)
 		+ cosf(DegreeToRadian(barrelAngle)) * barrelSize;
 	barrelEnd.y = pos.y
 		- sinf(DegreeToRadian(barrelAngle)) * barrelSize;;
+}
+
+void Tank::GetBarrelENd(FPOINT pos)
+{
+	//missile->SetPos = GetBarrelENd(barrelEnd);
 }
 
 void Tank::SetTarget(Enemy * target)

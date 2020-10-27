@@ -8,7 +8,7 @@ class Tank : public GameNode
 {
 private:
 	// 个烹 谅钎, 农扁
-	POINT pos;
+	FPOINT pos;
 	int size;
 
 	// 器脚
@@ -18,6 +18,7 @@ private:
 
 	// 固荤老
 	Missile* missile;
+	int missileCount;
 
 	// 利(鸥百)
 	Enemy* target;
@@ -30,7 +31,7 @@ public:
 
 	void Fire();
 	void RotateBarrel(float angle);
-
+	void GetBarrelENd(FPOINT pos);
 	void SetTarget(Enemy* target);
 
 	Tank();
